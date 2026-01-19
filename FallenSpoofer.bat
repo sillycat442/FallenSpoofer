@@ -107,7 +107,7 @@ echo =====================================
 echo        Vuroe - Unban Tool
 echo =====================================
 echo.
-echo   [1] Spoof Fallen test
+echo   [1] Spoof Fallen test lol
 echo   [2] Download Roblox
 echo   [3] Check Roblox Installation
 echo   [4] Exit Program

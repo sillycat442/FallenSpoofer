@@ -1,36 +1,38 @@
 @echo off
-setlocal
+setlocal EnableDelayedExpansion
 
 set TOOL_NAME=FallenSpoofer.bat
-set VERSION=1.4
+set VERSION=1.5
 
 set UPDATE_URL=https://raw.githubusercontent.com/sillycat442/FallenSpoofer/main/FallenSpoofer.bat
 set VERSION_URL=https://raw.githubusercontent.com/sillycat442/FallenSpoofer/main/version.txt
 
 title Fallen Spoofer - Checking for Updates...
 
-:: Get online version
-curl -fsS "%VERSION_URL%" > "%temp%\ver.txt" || goto skip_update
+:: ----- CHECK ONLINE VERSION -----
+curl -s "%VERSION_URL%" > "%temp%\ver.txt" || goto continue
 
-for /f "usebackq delims=" %%V in ("%temp%\ver.txt") do set "NEWVER=%%V"
+set /p NEWVER=<"%temp%\ver.txt"
 
-if "%NEWVER%"=="" goto skip_update
-if "%NEWVER%"=="%VERSION%" goto skip_update
+if "%NEWVER%"=="" goto continue
+if "%NEWVER%"=="%VERSION%" goto continue
 
-echo New version detected: %NEWVER%
-echo Updating...
+echo New version found: %NEWVER%
+echo Updating Fallen Spoofer...
 timeout /t 2 >nul
 
-:: Download new file
-curl -fL "%UPDATE_URL%" -o "%temp%\%TOOL_NAME%" || goto skip_update
+:: ----- DOWNLOAD NEW FILE -----
+curl -L "%UPDATE_URL%" -o "%temp%\%TOOL_NAME%" || goto continue
 
-:: Use PowerShell to replace running file
+:: ----- SELF-REPLACE USING POWERSHELL -----
 powershell -Command ^
-"Start-Sleep 1; Move-Item -Force '%temp%\%TOOL_NAME%' '%~f0'; Start-Process '%~f0'"
+"Start-Sleep 1; ^
+Move-Item -Force '%temp%\%TOOL_NAME%' '%~f0'; ^
+Start-Process '%~f0'"
 
-exit
+exit /b
 
-:skip_update
+:continue
 cls
 
 title Fallen Spoofer - Initializing...

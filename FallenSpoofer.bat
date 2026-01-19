@@ -2,7 +2,7 @@
 setlocal
 
 set TOOL_NAME=FallenSpoofer.bat
-set VERSION=1.3
+set VERSION=1.4
 
 set UPDATE_URL=https://raw.githubusercontent.com/sillycat442/FallenSpoofer/main/FallenSpoofer.bat
 set VERSION_URL=https://raw.githubusercontent.com/sillycat442/FallenSpoofer/main/version.txt

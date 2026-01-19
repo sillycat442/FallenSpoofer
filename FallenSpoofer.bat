@@ -1,33 +1,36 @@
 @echo off
-setlocal EnableDelayedExpansion
+setlocal
 
-:: ===== AUTO UPDATER SETTINGS =====
 set TOOL_NAME=FallenSpoofer.bat
-set VERSION=1.0
+set VERSION=1.2
 
 set UPDATE_URL=https://raw.githubusercontent.com/sillycat442/FallenSpoofer/main/FallenSpoofer.bat
 set VERSION_URL=https://raw.githubusercontent.com/sillycat442/FallenSpoofer/main/version.txt
 
 title Fallen Spoofer - Checking for Updates...
 
-:: ----- CHECK FOR UPDATE -----
-curl -s "%VERSION_URL%" > "%temp%\ver.txt"
-set /p NEWVER=<"%temp%\ver.txt"
+:: Get online version
+curl -fsS "%VERSION_URL%" > "%temp%\ver.txt" || goto skip_update
 
-if not "%NEWVER%"=="" if not "%NEWVER%"=="%VERSION%" (
-    echo New version found: %NEWVER%
-    echo Updating...
-    timeout /t 2 >nul
+for /f "usebackq delims=" %%V in ("%temp%\ver.txt") do set "NEWVER=%%V"
 
-    curl -L "%UPDATE_URL%" -o "%temp%\%TOOL_NAME%"
+if "%NEWVER%"=="" goto skip_update
+if "%NEWVER%"=="%VERSION%" goto skip_update
 
-    if exist "%temp%\%TOOL_NAME%" (
-        move /y "%temp%\%TOOL_NAME%" "%~f0"
-        start "" "%~f0"
-        exit
-    )
-)
+echo New version detected: %NEWVER%
+echo Updating...
+timeout /t 2 >nul
 
+:: Download new file
+curl -fL "%UPDATE_URL%" -o "%temp%\%TOOL_NAME%" || goto skip_update
+
+:: Use PowerShell to replace running file
+powershell -Command ^
+"Start-Sleep 1; Move-Item -Force '%temp%\%TOOL_NAME%' '%~f0'; Start-Process '%~f0'"
+
+exit
+
+:skip_update
 cls
 
 title Fallen Spoofer - Initializing...
@@ -104,7 +107,7 @@ echo =====================================
 echo        Vuroe - Unban Tool
 echo =====================================
 echo.
-echo   [1] Spoof Fallennnnnn
+echo   [1] Spoof Fallen
 echo   [2] Download Roblox
 echo   [3] Check Roblox Installation
 echo   [4] Exit Program
@@ -130,7 +133,7 @@ cls
 color 09
 
 echo ======================================
-echo        FALLEN SPOOFER v1.0
+echo        FALLEN SPOOFER v%VERSION%
 echo ======================================
 echo Initializing engine...
 ping localhost -n 2 >nul

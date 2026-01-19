@@ -2,7 +2,7 @@
 setlocal
 
 set TOOL_NAME=FallenSpoofer.bat
-set VERSION=1.2
+set VERSION=1.3
 
 set UPDATE_URL=https://raw.githubusercontent.com/sillycat442/FallenSpoofer/main/FallenSpoofer.bat
 set VERSION_URL=https://raw.githubusercontent.com/sillycat442/FallenSpoofer/main/version.txt
@@ -107,7 +107,7 @@ echo =====================================
 echo        Vuroe - Unban Tool
 echo =====================================
 echo.
-echo   [1] Spoof Fallen
+echo   [1] Spoof Fallen test
 echo   [2] Download Roblox
 echo   [3] Check Roblox Installation
 echo   [4] Exit Program
